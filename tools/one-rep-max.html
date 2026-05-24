@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1RM Calculator — Body Plan</title>
+  <meta name="description" content="เครื่องคำนวณ One Rep Max (1RM) ด้วย 7 สูตรมาตรฐาน พร้อมตาราง % สำหรับ Working Sets">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  <div id="app">
+    <aside id="sidebar"></aside>
+    <main>
+      <nav id="breadcrumb"></nav>
+      <article id="content">
+        <h1>🔢 One Rep Max Calculator</h1>
+        <p>คำนวณ 1RM จากน้ำหนักและจำนวน Rep ด้วย 7 สูตรมาตรฐาน — ทำงาน 100% offline</p>
+
+        <div class="calc-container">
+          <div class="calc-input-group">
+            <div class="calc-field">
+              <label for="calc-weight">Weight</label>
+              <input type="number" id="calc-weight" min="1" step="0.5" placeholder="e.g. 80">
+            </div>
+            <div class="calc-field">
+              <label for="calc-unit">Unit</label>
+              <select id="calc-unit">
+                <option value="kg">kg</option>
+                <option value="lb">lb</option>
+              </select>
+            </div>
+            <div class="calc-field">
+              <label for="calc-reps">Reps</label>
+              <input type="number" id="calc-reps" min="1" max="12" step="1" placeholder="e.g. 5">
+            </div>
+          </div>
+
+          <button class="calc-btn" id="calc-btn" onclick="calculate()">
+            ⚡ Calculate 1RM
+          </button>
+
+          <div class="calc-warning" id="calc-warning">
+            ⚠️ Rep สูงกว่า 10 อาจทำให้ผลประมาณการไม่แม่นยำ ควรใช้ 1–10 reps เพื่อความถูกต้อง
+          </div>
+
+          <div class="calc-results" id="calc-results" style="display:none;">
+            <h2>📊 1RM Results</h2>
+            <table class="results-table" id="formula-table">
+              <thead>
+                <tr><th>Formula</th><th>Estimated 1RM</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+
+            <h2>📋 Percentage Table (Epley 1RM)</h2>
+            <table class="results-table" id="pct-table">
+              <thead>
+                <tr><th>%</th><th>Weight</th><th>Approx Reps</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+    </main>
+  </div>
+  <script src="/assets/js/nav.js"></script>
+  <script>
+    function calculate() {
+      var weightInput = parseFloat(document.getElementById('calc-weight').value);
+      var reps = parseInt(document.getElementById('calc-reps').value);
+      var unit = document.getElementById('calc-unit').value;
+
+      if (!weightInput || weightInput <= 0 || !reps || reps < 1) {
+        alert('กรุณาใส่น้ำหนักและจำนวน Rep ที่ถูกต้อง');
+        return;
+      }
+
+      // Convert lb to kg internally for calculation, display in selected unit
+      var w = unit === 'lb' ? weightInput * 0.453592 : weightInput;
+
+      // Show warning for reps > 10
+      var warning = document.getElementById('calc-warning');
+      warning.style.display = reps > 10 ? 'block' : 'none';
+
+      // If reps == 1, 1RM = weight
+      if (reps === 1) {
+        var oneRM = w;
+        var results = [
+          { name: 'Epley', value: oneRM, primary: true },
+          { name: 'Brzycki', value: oneRM },
+          { name: 'Lander', value: oneRM },
+          { name: 'Lombardi', value: oneRM },
+          { name: 'Mayhew et al.', value: oneRM },
+          { name: "O'Conner et al.", value: oneRM },
+          { name: 'Wathan', value: oneRM }
+        ];
+      } else {
+        var results = [
+          { name: 'Epley', value: w * (1 + reps / 30), primary: true },
+          { name: 'Brzycki', value: w * 36 / (37 - reps) },
+          { name: 'Lander', value: (100 * w) / (101.3 - 2.67123 * reps) },
+          { name: 'Lombardi', value: w * Math.pow(reps, 0.10) },
+          { name: 'Mayhew et al.', value: (100 * w) / (52.2 + 41.9 * Math.exp(-0.055 * reps)) },
+          { name: "O'Conner et al.", value: w * (1 + 0.025 * reps) },
+          { name: 'Wathan', value: (100 * w) / (48.8 + 53.8 * Math.exp(-0.075 * reps)) }
+        ];
+      }
+
+      // Convert back if lb
+      if (unit === 'lb') {
+        results.forEach(function(r) { r.value = r.value / 0.453592; });
+      }
+
+      // Render formula table
+      var tbody = document.querySelector('#formula-table tbody');
+      tbody.innerHTML = '';
+      results.forEach(function(r) {
+        var tr = document.createElement('tr');
+        if (r.primary) tr.className = 'primary-row';
+        tr.innerHTML = '<td>' + r.name + (r.primary ? ' ⭐' : '') + '</td><td>' + r.value.toFixed(1) + ' ' + unit + '</td>';
+        tbody.appendChild(tr);
+      });
+
+      // Percentage table based on Epley
+      var epley1RM = results[0].value;
+      var pctTbody = document.querySelector('#pct-table tbody');
+      pctTbody.innerHTML = '';
+      var percentages = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50];
+      var approxReps = [1, 2, 4, 6, 8, 10, 12, 15, 18, 22, 26];
+
+      percentages.forEach(function(pct, i) {
+        var tr = document.createElement('tr');
+        var val = epley1RM * pct / 100;
+        tr.innerHTML = '<td>' + pct + '%</td><td>' + val.toFixed(1) + ' ' + unit + '</td><td>~' + approxReps[i] + '</td>';
+        if (pct === 100) tr.className = 'primary-row';
+        pctTbody.appendChild(tr);
+      });
+
+      document.getElementById('calc-results').style.display = 'block';
+      document.getElementById('calc-results').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Allow Enter key to trigger calculation
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') calculate();
+    });
+  </script>
+</body>
+</html>

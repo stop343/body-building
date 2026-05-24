@@ -1,0 +1,13 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": ["firebase.json", ".firebaserc", "PLAN.md", "SKILL.md", "skills-lock.json", "**/.*", "node_modules/**"],
+    "cleanUrls": true,
+    "headers": [
+      {
+        "source": "**/*.md",
+        "headers": [{ "key": "Access-Control-Allow-Origin", "value": "*" }]
+      }
+    ]
+  }
+}
