@@ -1,72 +1,93 @@
 // nav.js — Shared sidebar & breadcrumb injection
 (function () {
-  const sections = [
-    { title: 'Home', icon: '🏠', href: '/' },
+  // Compute base path relative to current HTML file
+  // Root-level pages: basePath = ''
+  // Subdirectory pages (e.g. nutrition/): basePath = '../'
+  var depth = (function () {
+    var path = window.location.pathname.replace(/\/[^\/]*$/, '');
+    // For file:// protocol, calculate depth from known structure
+    var parts = path.split('/').filter(Boolean);
+    // Find 'Body' directory in path to determine depth within project
+    var bodyIdx = parts.lastIndexOf('Body');
+    if (bodyIdx >= 0) {
+      return parts.length - bodyIdx - 1;
+    }
+    // For server, use path depth (root = 0)
+    return parts.length;
+  })();
+  var basePath = depth > 0 ? '../'.repeat(depth) : '';
+
+  var sections = [
+    { title: 'Home', icon: '🏠', href: basePath + 'index.html' },
     {
-      title: 'Workouts', icon: '🏋️', href: '/workouts/',
+      title: 'Workouts', icon: '🏋️', href: basePath + 'workouts/index.html',
       children: [
-        { title: 'Phase 1 — Bulking 1', href: '/workouts/phase1-bulking1-workout' },
-        { title: 'Phase 2 — Mini Cut', href: '/workouts/phase2-mini-cut-workout' },
-        { title: 'Phase 3 — Bulking 2', href: '/workouts/phase3-bulking2-workout' },
-        { title: 'Phase 4 — Shredding', href: '/workouts/phase4-shredding-workout' },
-        { title: 'Phase 5 — Maintain', href: '/workouts/phase5-maintain-workout' },
+        { title: 'Phase 1 — Bulking 1', href: basePath + 'workouts/phase1-bulking1-workout.html' },
+        { title: 'Phase 2 — Mini Cut', href: basePath + 'workouts/phase2-mini-cut-workout.html' },
+        { title: 'Phase 3 — Bulking 2', href: basePath + 'workouts/phase3-bulking2-workout.html' },
+        { title: 'Phase 4 — Shredding', href: basePath + 'workouts/phase4-shredding-workout.html' },
+        { title: 'Phase 5 — Maintain', href: basePath + 'workouts/phase5-maintain-workout.html' },
       ]
     },
     {
-      title: 'Nutrition', icon: '🍽️', href: '/nutrition/',
+      title: 'Nutrition', icon: '🍽️', href: basePath + 'nutrition/index.html',
       children: [
-        { title: 'Phase 1 — Bulking 1', href: '/nutrition/phase1-bulking1-nutrition' },
-        { title: 'Phase 2 — Mini Cut', href: '/nutrition/phase2-mini-cut-nutrition' },
-        { title: 'Phase 3 — Bulking 2', href: '/nutrition/phase3-bulking2-nutrition' },
-        { title: 'Phase 4 — Shredding', href: '/nutrition/phase4-shredding-nutrition' },
-        { title: 'Phase 5 — Maintain', href: '/nutrition/phase5-maintain-nutrition' },
+        { title: 'Phase 1 — Bulking 1', href: basePath + 'nutrition/phase1-bulking1-nutrition.html' },
+        { title: 'Phase 2 — Mini Cut', href: basePath + 'nutrition/phase2-mini-cut-nutrition.html' },
+        { title: 'Phase 3 — Bulking 2', href: basePath + 'nutrition/phase3-bulking2-nutrition.html' },
+        { title: 'Phase 4 — Shredding', href: basePath + 'nutrition/phase4-shredding-nutrition.html' },
+        { title: 'Phase 5 — Maintain', href: basePath + 'nutrition/phase5-maintain-nutrition.html' },
       ]
     },
     {
-      title: 'Hormones & Supps', icon: '🧬', href: '/hormones-and-supplements/',
+      title: 'Hormones & Supps', icon: '🧬', href: basePath + 'hormones-and-supplements/index.html',
       children: [
-        { title: 'Hormones', href: '/hormones-and-supplements/hormones' },
-        { title: 'Supplements', href: '/hormones-and-supplements/supplements' },
+        { title: 'Hormones', href: basePath + 'hormones-and-supplements/hormones.html' },
+        { title: 'Supplements', href: basePath + 'hormones-and-supplements/supplements.html' },
       ]
     },
-    { title: 'Progress Tracking', icon: '📈', href: '/progress-tracking' },
-    { title: 'Research', icon: '📚', href: '/research' },
-    { title: '1RM Calculator', icon: '🔢', href: '/tools/one-rep-max' },
+    { title: 'Progress Tracking', icon: '📈', href: basePath + 'progress-tracking.html' },
+    { title: 'Research', icon: '📚', href: basePath + 'research.html' },
+    { title: '1RM Calculator', icon: '🔢', href: basePath + 'tools/one-rep-max.html' },
   ];
 
+  function normalizePath(p) {
+    return p.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/';
+  }
+
   function isActive(href) {
-    const path = window.location.pathname.replace(/\.html$/, '').replace(/\/index$/, '/').replace(/\/$/, '') || '/';
-    const target = href.replace(/\/$/, '') || '/';
-    return path === target;
+    var current = normalizePath(window.location.pathname);
+    var target = normalizePath(new URL(href, window.location.href).pathname);
+    return current === target;
   }
 
   function isSectionActive(section) {
     if (isActive(section.href)) return true;
-    if (section.children) return section.children.some(c => isActive(c.href));
+    if (section.children) return section.children.some(function (c) { return isActive(c.href); });
     return false;
   }
 
   // Build sidebar HTML
   function renderSidebar() {
-    const sidebar = document.getElementById('sidebar');
+    var sidebar = document.getElementById('sidebar');
     if (!sidebar) return;
 
-    let html = `
-      <div class="sidebar-header">
-        <div class="sidebar-logo">💪 Body Plan</div>
-        <div class="sidebar-subtitle">1-Year Transformation</div>
-      </div>
-      <nav class="sidebar-nav">`;
+    var html = '\n' +
+      '      <div class="sidebar-header">\n' +
+      '        <div class="sidebar-logo">💪 Body Plan</div>\n' +
+      '        <div class="sidebar-subtitle">1-Year Transformation</div>\n' +
+      '      </div>\n' +
+      '      <nav class="sidebar-nav">';
 
-    sections.forEach(s => {
-      const active = isActive(s.href) ? ' active' : '';
-      html += `<a class="nav-link${active}" href="${s.href}">
-        <span class="nav-icon">${s.icon}</span>${s.title}</a>`;
+    sections.forEach(function (s) {
+      var active = isActive(s.href) ? ' active' : '';
+      html += '<a class="nav-link' + active + '" href="' + s.href + '">' +
+        '<span class="nav-icon">' + s.icon + '</span>' + s.title + '</a>';
       if (s.children) {
         html += '<div class="nav-children">';
-        s.children.forEach(c => {
-          const cActive = isActive(c.href) ? ' active' : '';
-          html += `<a class="nav-link${cActive}" href="${c.href}">${c.title}</a>`;
+        s.children.forEach(function (c) {
+          var cActive = isActive(c.href) ? ' active' : '';
+          html += '<a class="nav-link' + cActive + '" href="' + c.href + '">' + c.title + '</a>';
         });
         html += '</div>';
       }
@@ -78,15 +99,21 @@
 
   // Build breadcrumb
   function renderBreadcrumb() {
-    const bc = document.getElementById('breadcrumb');
+    var bc = document.getElementById('breadcrumb');
     if (!bc) return;
 
-    const path = window.location.pathname.replace(/\.html$/, '').replace(/\/index$/, '/');
-    const parts = path.split('/').filter(Boolean);
+    var path = window.location.pathname.replace(/\.html$/, '').replace(/\/index$/, '/');
+    var parts = path.split('/').filter(Boolean);
 
-    let html = '<a href="/">Home</a>';
+    // For file:// protocol, trim to parts after 'Body'
+    var bodyIdx = parts.lastIndexOf('Body');
+    if (bodyIdx >= 0) {
+      parts = parts.slice(bodyIdx + 1);
+    }
 
-    const sectionMap = {
+    var html = '<a href="' + basePath + 'index.html">Home</a>';
+
+    var sectionMap = {
       'workouts': 'Workouts',
       'nutrition': 'Nutrition',
       'hormones-and-supplements': 'Hormones & Supplements',
@@ -94,20 +121,20 @@
     };
 
     if (parts.length > 0) {
-      const section = parts[0];
+      var section = parts[0];
       if (sectionMap[section]) {
-        html += `<span class="breadcrumb-sep">›</span>`;
+        html += '<span class="breadcrumb-sep">›</span>';
         if (parts.length > 1) {
-          html += `<a href="/${section}/">${sectionMap[section]}</a>`;
-          html += `<span class="breadcrumb-sep">›</span>`;
-          const pageName = document.title.replace(' — Body Plan', '');
-          html += `<span>${pageName}</span>`;
+          html += '<a href="' + basePath + section + '/index.html">' + sectionMap[section] + '</a>';
+          html += '<span class="breadcrumb-sep">›</span>';
+          var pageName = document.title.replace(' — Body Plan', '');
+          html += '<span>' + pageName + '</span>';
         } else {
-          html += `<span>${sectionMap[section]}</span>`;
+          html += '<span>' + sectionMap[section] + '</span>';
         }
       } else {
-        const pageName = document.title.replace(' — Body Plan', '');
-        html += `<span class="breadcrumb-sep">›</span><span>${pageName}</span>`;
+        var pageName = document.title.replace(' — Body Plan', '');
+        html += '<span class="breadcrumb-sep">›</span><span>' + pageName + '</span>';
       }
     }
 
@@ -116,22 +143,22 @@
 
   // Mobile menu toggle
   function setupMobile() {
-    const toggle = document.createElement('button');
+    var toggle = document.createElement('button');
     toggle.className = 'mobile-toggle';
     toggle.setAttribute('aria-label', 'Toggle menu');
     toggle.innerHTML = '☰';
     document.body.appendChild(toggle);
 
-    const overlay = document.createElement('div');
+    var overlay = document.createElement('div');
     overlay.className = 'sidebar-overlay';
     document.body.appendChild(overlay);
 
-    const sidebar = document.getElementById('sidebar');
+    var sidebar = document.getElementById('sidebar');
 
     function open() { sidebar.classList.add('open'); overlay.classList.add('open'); }
     function close() { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
 
-    toggle.addEventListener('click', () => sidebar.classList.contains('open') ? close() : open());
+    toggle.addEventListener('click', function () { sidebar.classList.contains('open') ? close() : open(); });
     overlay.addEventListener('click', close);
   }
 
