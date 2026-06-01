@@ -13,9 +13,9 @@
 | จันทร์ | Chest + Back | Strength — Compound หนัก |
 | อังคาร | Legs + Abs | Strength + Hypertrophy |
 | พุธ | **พัก** | Rest |
-| พฤหัสบดี | Chest (Dedicated) | Hypertrophy — Volume สูง |
+| พฤหัสบดี | Chest + Triceps | Hypertrophy — Volume สูง |
 | ศุกร์ | Back (Dedicated) | Hypertrophy — Volume สูง |
-| เสาร์ | Abs + Mobility | Core + ยืดเหยียด |
+| เสาร์ | Abs + Mobility + Biceps | Biceps + Core + ยืดเหยียด |
 | อาทิตย์ | **พัก** | Rest |
 
 ---
@@ -41,11 +41,12 @@
 | BB Bench Press | (S) Strength | 4 × 5–6 | 3–4 นาที |
 | Incline DB Press | (S) Strength | 4 × 6–8 | 3 นาที |
 | Cable Fly | (H) Hypertrophy | 3 × 10–12 | 75 วิ |
-| Deadlift | (S) Strength | 4 × 5–6 | 3–4 นาที |
+| Chest Dips (เอนตัวไปข้างหน้า) | (H) Hypertrophy | 3 × 8–10 | 90 วิ |
 | Barbell Row | (S) Strength | 4 × 6–8 | 3 นาที |
 | Lat Pulldown | (H) Hypertrophy | 3 × 8–12 | 90 วิ |
 
 > Volume: Chest 11 sets | Back 11 sets
+> ⚠️ ไม่มี Deadlift วันนี้ — เลี่ยงโหลด Lower Back / Hamstrings ก่อนวัน Legs (อังคาร)
 
 **Cardio:** Zone 2 — 15–20 นาที (เบาเพื่อไม่กัด Surplus)
 
@@ -78,7 +79,7 @@
 
 ---
 
-## 💥 วันพฤหัสบดี — Chest (Dedicated Hypertrophy)
+## 💥 วันพฤหัสบดี — Chest + Triceps (Hypertrophy)
 
 | ท่า | โซน | Set × Rep | Rest |
 |---|---|---|---|
@@ -86,12 +87,11 @@
 | Flat DB Press | (H) Hypertrophy | 4 × 10–12 | 90 วิ |
 | Pec Deck / Cable Fly | (H) Hypertrophy | 3 × 12–15 | 75 วิ |
 | Weighted Dips | (H) Hypertrophy | 3 × 8–10 | 90 วิ |
-| Seated DB Shoulder Press | (H) Hypertrophy | 4 × 8–12 | 90 วิ |
-| Lateral Raise | (E) Endurance | 4 × 15–20 | 60 วิ |
 | Tricep Pushdown | (E) Endurance | 3 × 12–15 | 60 วิ |
 | Overhead Tricep Extension | (E) Endurance | 3 × 12 | 60 วิ |
 
-> Volume: Chest 14 sets (Peak!) | Shoulders 8 sets | Triceps 6 sets
+> Volume: Chest 14 sets (Peak!) | Triceps 6 sets
+> ✅ ลดจาก 28 → 20 sets — ย้าย Shoulders ไปวันเสาร์เพื่อลด Fatigue ปลาย Session
 
 **Cardio:** Zone 2 — 15–20 นาที
 
@@ -107,17 +107,29 @@
 | Straight-arm Pulldown | (H) Hypertrophy | 3 × 12–15 | 75 วิ |
 | Rear Delt Fly | (E) Endurance | 4 × 15–20 | 60 วิ |
 | Face Pull | (E) Endurance | 3 × 20 | 60 วิ |
-| Barbell Curl | (H) Hypertrophy | 3 × 8–10 | 75 วิ |
-| Incline DB Curl | (H) Hypertrophy | 3 × 12–15 | 60 วิ |
-| Hammer Curl | (E) Endurance | 3 × 12 | 60 วิ |
 
-> Volume: Back 14 sets (Peak!) | Rear Delts 7 sets | Biceps 9 sets
+> Volume: Back 14 sets (Peak!) | Rear Delts 7 sets
 
 **Cardio:** Zone 2 — 15–20 นาที
 
 ---
 
-## 🧘 วันเสาร์ — Abs + Mobility
+## 🧘 วันเสาร์ — Abs + Mobility + Biceps
+
+### Biceps
+
+| ท่า | โซน | Set × Rep | Rest |
+|---|---|---|---|
+| Barbell Curl | (H) Hypertrophy | 3 × 8–10 | 90 วิ |
+| Incline DB Curl | (H) Hypertrophy | 3 × 10–12 | 75 วิ |
+| Preacher Curl (EZ-Bar) | (H) Hypertrophy | 3 × 10–12 | 75 วิ |
+| Cable Curl (Rope / Straight Bar) | (E) Endurance | 3 × 12–15 | 60 วิ |
+| Hammer Curl | (E) Endurance | 3 × 12–15 | 60 วิ |
+
+> Volume: Biceps 15 sets (Peak!)
+> ✅ ไม่มีท่าที่โดน Back หรือ Rear Delts — ไม่ซ้ำกลุ่มหลักวันศุกร์
+
+---
 
 ### Core Circuit
 
@@ -127,7 +139,6 @@
 | Cable Woodchop | 3 × 12 ต่อข้าง | 60 วิ |
 | Ab Wheel Rollout | 3 × 10–12 | 60 วิ |
 | Plank | 3 × 60 วิ | 60 วิ |
-| Pallof Press | 3 × 12 ต่อข้าง | 60 วิ |
 
 > Volume: Abs 6 sets (+ stability work)
 
@@ -154,9 +165,8 @@
 | Back | 20 sets 🔥 | ↑ จาก 18 (+11%) |
 | Quads | 10 sets | คงเดิม |
 | Hamstrings | 7 sets | ↑ เล็กน้อย |
-| Shoulders | 8 sets | ↓ เล็กน้อย (เน้น Chest แทน) |
-| Rear Delts | 7 sets | ↑ จาก 6 |
-| Biceps | 9 sets | ↑ จาก 6 (+50%) |
+| Shoulders (Rear Delts) | 7 sets | จาก Face Pull + Rear Fly วันศุกร์ |
+| Biceps | 9 sets 🔥 | ↑ จาก 6 (+50%) — ย้ายไปวันเสาร์ |
 | Triceps | 6 sets | ↑ จาก 3 (+100%) |
 | Abs | 10 sets | ↑ จาก 8 (+25%) |
 | Calves | 4 sets | คงเดิม |

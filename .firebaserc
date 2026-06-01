@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "<YOUR_FIREBASE_PROJECT_ID>"
-  }
+    "default": "stop343-33b3c",
+    "stop343": "stop343-33b3c"
+  },
+  "targets": {},
+  "etags": {}
 }
